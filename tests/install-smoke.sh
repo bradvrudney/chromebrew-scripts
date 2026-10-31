@@ -144,7 +144,8 @@ expect "(tree) to $prefix/share/chromebrew-scripts" install_sh --prefix "$prefix
 [ -f "$prefix/share/chromebrew-scripts/bin/chromebrew-scripts" ] || fail "no tree installed"
 [ -d "$prefix/share/chromebrew-scripts/lib/core" ] || fail "the tree has no lib/core"
 [ "$(readlink "$prefix/bin/rw")" = "$prefix/share/chromebrew-scripts/bin/chromebrew-scripts" ] || fail "rw does not point into the tree"
-expect "chromebrew-scripts $version (" "$prefix/bin/rw" --version
+expect "chromebrew-scripts $version" "$prefix/bin/rw" --version
+case "$("$prefix/bin/rw" --version)" in *"single file"*) fail "rw still runs the single file after --tree" ;; esac
 expect "would run: sudo mount -o remount,rw $fake" "$prefix/bin/rw" -ny
 expect "removed the previous tree installation" install_sh --prefix "$prefix"
 [ ! -e "$prefix/share/chromebrew-scripts" ] || fail "the tree was left behind"
