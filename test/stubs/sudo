@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# sudo stub: log the call, then run the command without privileges.
-printf 'sudo %s\n' "$*" >> "${STUB_LOG:-/dev/null}"
-[[ "${STUB_EXIT_sudo:-0}" == 0 ]] || exit "${STUB_EXIT_sudo}"
-exec "$@"

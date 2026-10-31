@@ -1,17 +1,17 @@
 SHELL := /usr/bin/env bash
-SHELLCHECK ?= shellcheck
-BATS ?= bats
 
-SH_FILES := bin/chromebrew bin/powerwash bin/rootfs bin/rw lib/*.sh install.sh \
-            scripts/check.sh test/test_helper.bash test/stubs/stub.sh \
-            test/stubs/sudo test/stubs/crew test/stubs/curl
-
-.PHONY: check lint test
+.PHONY: check lint test build clean
 
 check: lint test
 
 lint:
-	$(SHELLCHECK) -x -P lib -P . $(SH_FILES)
+	tests/lint.sh
 
 test:
-	$(BATS) --tap test/
+	tests/run.sh
+
+build:
+	./build.sh
+
+clean:
+	rm -rf dist

@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-# crew stub: log the call; "crew version" prints a version.
-printf 'crew %s\n' "$*" >> "${STUB_LOG:-/dev/null}"
-[[ "${1:-}" == version ]] && echo "1.59.0"
-exit "${STUB_EXIT_crew:-0}"
