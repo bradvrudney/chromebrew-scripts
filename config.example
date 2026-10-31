@@ -11,8 +11,7 @@
 # Where --self-update pulls this toolkit from (https:// only). A git checkout
 # with nothing configured follows the remote it was cloned from; a tree or
 # single-file installation uses the repository below. Set it to follow a
-# fork, for example Ed Reel's original:
-#SELF_UPDATE_REPO=https://github.com/uberhacker/chromebrew-scripts
+# fork, for example:
 #SELF_UPDATE_REPO=https://github.com/bradvrudney/chromebrew-scripts
 
 # Branch for --self-update of a git checkout or a tree installation. Empty

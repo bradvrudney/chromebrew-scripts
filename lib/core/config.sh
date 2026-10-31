@@ -8,7 +8,7 @@
 # never sourced or eval'd, so a hostile value cannot run code. Unknown keys
 # and malformed values are reported and ignored. See config.example.
 
-CBS_DEFAULT_REPO="https://github.com/bradvrudney/chromebrew-scripts"
+CBS_DEFAULT_REPO="https://github.com/uberhacker/chromebrew-scripts"
 
 # Allowed keys with their default values and a validation class.
 #   bool     1/0/yes/no/true/false/on/off

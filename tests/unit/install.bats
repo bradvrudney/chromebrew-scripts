@@ -178,7 +178,7 @@ version() { tr -d '[:space:]' < "$REPO_ROOT/VERSION"; }
   run bash "$REPO_ROOT/install.sh" --update --prefix "$PREFIX_DIR"
   [ "$status" -eq 0 ]
   # the bad value is ignored and the default repository used
-  assert_called "https://github.com/bradvrudney/chromebrew-scripts/archive/refs/heads/main.tar.gz"
+  assert_called "https://github.com/uberhacker/chromebrew-scripts/archive/refs/heads/main.tar.gz"
 }
 
 @test "install.sh --update keeps a tree installation a tree" {
