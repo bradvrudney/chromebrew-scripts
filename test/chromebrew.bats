@@ -86,7 +86,10 @@ install_toolkit_and_fake_crew() {
 
 @test "install downloads the installer with curl --fail and runs it with yes" {
   without_crew
-  if [ "$(id -u)" -eq 0 ]; then
+  local expect_uid
+  expect_uid="$(id -u)"
+  if [ "${expect_uid}" -eq 0 ]; then
+    expect_uid=65534
     command -v setpriv >/dev/null || skip "setpriv not available"
     chmod -R a+rwX "${BATS_TEST_TMPDIR}" "${BATS_RUN_TMPDIR}" 2>/dev/null || true
     setpriv --reuid=65534 --regid=65534 --clear-groups true 2>/dev/null || skip "cannot drop privileges"
@@ -98,7 +101,7 @@ install_toolkit_and_fake_crew() {
   [ "$status" -eq 0 ]
   assert_called "curl --fail --location --silent --show-error --max-time 300 -o"
   assert_called "https://raw.githubusercontent.com/chromebrew/chromebrew/master/install.sh"
-  assert_called "installer euid=65534 answer=y"
+  assert_called "installer euid=${expect_uid} answer=y"
 }
 
 @test "install honors CBS_CREW_INSTALLER_URL and shows the plan in dry-run" {
