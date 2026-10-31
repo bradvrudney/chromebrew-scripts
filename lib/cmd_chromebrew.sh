@@ -138,6 +138,14 @@ _cb_remove() {
   if ! _crew_bin >/dev/null; then
     warn "crew was not found; clearing whatever is left under ${CBS_PREFIX} anyway."
   fi
+  local real_prefix
+  real_prefix="$(readlink -f -- "${CBS_PREFIX}" 2>/dev/null)" || real_prefix=''
+  case "${real_prefix}" in
+    ''|/|/home|/home/*|/mnt|/mnt/stateful_partition|/usr|/etc|/root|/opt)
+      die "Refusing to clear '${CBS_PREFIX}': not a safe Chromebrew prefix." ;;
+  esac
+  [[ "${CBS_PREFIX}" == /* && -d "${CBS_PREFIX}" ]] ||
+    die "Refusing to clear '${CBS_PREFIX}': not an existing absolute directory."
   confirm "Are you sure you want to uninstall Chromebrew? This clears ${CBS_PREFIX}/*" || exit 1
   _cb_strip_bashrc
   log "Clearing ${CBS_PREFIX}/* (keeping chromebrew-scripts at ${CBS_ROOT_DIR})"

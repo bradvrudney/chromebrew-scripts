@@ -155,6 +155,17 @@ install_toolkit_and_fake_crew() {
   [ "$(cat "${CBS_HOME}/.bashrc")" = $'export FOO=bar\nalias ll="ls -l"' ]
 }
 
+@test "remove refuses an unsafe prefix" {
+  install_toolkit_and_fake_crew
+  for bad in / /usr /home relative/path "${BATS_TEST_TMPDIR}/missing"; do
+    CBS_PREFIX="${bad}" run "${PREFIX_DIR}/bin/chromebrew" --remove --yes
+    [ "$status" -ne 0 ]
+    assert_output_contains "Refusing to clear"
+  done
+  [ -e "${PREFIX_DIR}/lib/crew/packages.rb" ]
+  [ -z "$(calls)" ]
+}
+
 @test "remove dry-run touches nothing" {
   install_toolkit_and_fake_crew
   printf 'source /usr/local/etc/profile\n' > "${CBS_HOME}/.bashrc"
