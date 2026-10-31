@@ -1,6 +1,6 @@
 SHELL := /usr/bin/env bash
 
-.PHONY: check lint test build clean
+.PHONY: check lint test smoke build clean
 
 check: lint test
 
@@ -9,6 +9,9 @@ lint:
 
 test:
 	tests/run.sh
+
+smoke:
+	tests/install-smoke.sh
 
 build:
 	./build.sh

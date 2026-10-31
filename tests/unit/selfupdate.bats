@@ -89,9 +89,16 @@ tree_mode_only() {
   tgit "$up" checkout -q -b feature
   bump_upstream "$up" 7.7.7
   tgit "$up" checkout -q main
+  # another branch is a switch, not a fast-forward, and the dry run says so
+  run "$inst/bin/rw" --self-update --branch feature -n
+  [ "$status" -eq 0 ]
+  assert_output_contains "would switch from main to feature at "
+  [ "$(cat "$inst/VERSION")" = "$(version)" ]
   run "$inst/bin/rw" --self-update --branch feature
   [ "$status" -eq 0 ]
   assert_output_contains "source: file://$up (branch feature)"
+  assert_output_contains "switching from main to feature"
+  assert_output_contains "switched to feature: 7.7.7 ("
   [ "$(cat "$inst/VERSION")" = 7.7.7 ]
   [ "$(git -C "$inst" symbolic-ref --short HEAD)" = feature ]
   run env SELF_UPDATE_BRANCH=main "$inst/bin/rw" --self-update

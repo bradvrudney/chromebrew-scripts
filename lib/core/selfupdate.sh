@@ -156,7 +156,11 @@ selfupdate_git() {
 
   if [ "$CBS_DRY_RUN" = 1 ]; then
     new_rev=$("${git[@]}" rev-parse --short FETCH_HEAD 2>/dev/null)
-    if [ "$behind" = 0 ] && [ "$current" = "$target" ]; then
+    if [ "$current" != "$target" ]; then
+      # A checkout on another branch (a development branch the remote does
+      # not have, or --branch) is switched, not fast-forwarded: say so.
+      log_dry "would switch from ${current:-a detached HEAD} to $target at $new_rev ($behind commit(s) not on ${current:-HEAD})"
+    elif [ "$behind" = 0 ]; then
       log_dry "already up to date ($old_rev)"
     else
       log_dry "would fast-forward $old_rev -> $new_rev ($behind new commit(s) on $target)"
@@ -165,6 +169,7 @@ selfupdate_git() {
   fi
 
   if [ "$current" != "$target" ]; then
+    log_info "switching from ${current:-a detached HEAD} to $target"
     "${git[@]}" checkout --quiet "$target" || { log_error "could not switch to branch $target"; return 1; }
   fi
   "${git[@]}" pull --ff-only --quiet origin "$target" || {
@@ -175,6 +180,8 @@ selfupdate_git() {
   new_ver=$(cat "$root/VERSION" 2>/dev/null || echo unknown)
   if [ "$old_rev" = "$new_rev" ]; then
     log_ok "already up to date: $new_ver ($new_rev)"
+  elif [ "$current" != "$target" ]; then
+    log_updated "switched to $target: $new_ver ($new_rev), was $old_ver ($old_rev) on ${current:-a detached HEAD}"
   else
     log_updated "updated $old_ver ($old_rev) -> $new_ver ($new_rev)"
   fi
