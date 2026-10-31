@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# curl stub: log the call and write a fake download to the -o target.
+# A .tar.gz URL gets a tarball of this repository; anything else gets a fake
+# Chromebrew installer that logs how it was run.
+printf 'curl %s\n' "$*" >> "${STUB_LOG:-/dev/null}"
+out=''
+url=''
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -o) out="$2"; shift ;;
+    -*) ;;
+    *) url="$1" ;;
+  esac
+  shift
+done
+[[ "${STUB_EXIT_curl:-0}" == 0 ]] || exit "${STUB_EXIT_curl}"
+[[ -n "${out}" ]] || exit 0
+if [[ "${url}" == *.tar.gz ]]; then
+  tar -czf "${out}" -C "$(dirname "${REPO_ROOT}")" --exclude=.git "$(basename "${REPO_ROOT}")"
+else
+  cat > "${out}" <<'INSTALLER'
+#!/usr/bin/env bash
+read -r -n1 answer || answer=''
+printf 'installer euid=%s answer=%s args=%s\n' "${EUID}" "${answer}" "$*" >> "${STUB_LOG:-/dev/null}"
+exit "${STUB_INSTALLER_EXIT:-0}"
+INSTALLER
+fi
