@@ -65,7 +65,7 @@ trap 'rm -f -- "$tmp"' EXIT
       cat <<EOF
 #
 # Single-file build of chromebrew-scripts $version (git $commit), made by
-# build.sh from https://github.com/bradvrudney/chromebrew-scripts. Do not
+# build.sh from https://github.com/uberhacker/chromebrew-scripts. Do not
 # edit: change the modules in lib/ and rebuild.
 CBS_BUNDLE_VERSION='$version'
 CBS_BUNDLE_COMMIT='$commit'

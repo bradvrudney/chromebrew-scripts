@@ -81,8 +81,8 @@ to break. Run `cbs-check` and `--dry-run` first, and read
 On the device, open crosh (Ctrl+Alt+T), type `shell`, then:
 
 ```
-$ curl -fLO https://github.com/bradvrudney/chromebrew-scripts/releases/latest/download/chromebrew-scripts
-$ curl -fLO https://github.com/bradvrudney/chromebrew-scripts/releases/latest/download/chromebrew-scripts.sha256
+$ curl -fLO https://github.com/uberhacker/chromebrew-scripts/releases/latest/download/chromebrew-scripts
+$ curl -fLO https://github.com/uberhacker/chromebrew-scripts/releases/latest/download/chromebrew-scripts.sha256
 $ sha256sum -c chromebrew-scripts.sha256
 $ sudo install -m 0755 chromebrew-scripts /usr/local/bin/chromebrew-scripts
 $ chromebrew-scripts check              # where do we stand? (read-only)
@@ -94,7 +94,7 @@ it) and install from the checkout, which also sets up the command names and
 tab completion:
 
 ```
-$ git clone https://github.com/bradvrudney/chromebrew-scripts.git
+$ git clone https://github.com/uberhacker/chromebrew-scripts.git
 $ cd chromebrew-scripts
 $ ./bin/cbs-check                       # runs from the checkout as well
 $ ./install.sh                          # /usr/local/bin/chromebrew-scripts + chromebrew, powerwash, rootfs, rw, cbs-check
@@ -273,7 +273,7 @@ command symlinks next to it, and the bash completion. System wide, which is
 the layout for a ChromeOS device:
 
 ```
-$ git clone https://github.com/bradvrudney/chromebrew-scripts.git
+$ git clone https://github.com/uberhacker/chromebrew-scripts.git
 $ cd chromebrew-scripts
 $ ./install.sh                  # -> /usr/local/bin/chromebrew-scripts, chromebrew, powerwash, rootfs, rw, cbs-check
 ```
@@ -307,7 +307,7 @@ Running the commands from the checkout (`./bin/rw`) works too.
 ### Single file
 
 The whole toolkit is **one executable file**, which is what `install.sh`
-installs and what the [releases](https://github.com/bradvrudney/chromebrew-scripts/releases)
+installs and what the [releases](https://github.com/uberhacker/chromebrew-scripts/releases)
 publish. It is the same bash code with every module inlined (nothing is
 compiled), it needs the same bash 4.4 and coreutils, and it behaves exactly
 like the checkout: the test suite runs every test against both.
@@ -316,8 +316,8 @@ From a release (each `v*` tag publishes `chromebrew-scripts` and its
 `.sha256`), without `git`:
 
 ```
-$ curl -fLO https://github.com/bradvrudney/chromebrew-scripts/releases/latest/download/chromebrew-scripts
-$ curl -fLO https://github.com/bradvrudney/chromebrew-scripts/releases/latest/download/chromebrew-scripts.sha256
+$ curl -fLO https://github.com/uberhacker/chromebrew-scripts/releases/latest/download/chromebrew-scripts
+$ curl -fLO https://github.com/uberhacker/chromebrew-scripts/releases/latest/download/chromebrew-scripts.sha256
 $ sha256sum -c chromebrew-scripts.sha256
 $ sudo install -m 0755 chromebrew-scripts /usr/local/bin/chromebrew-scripts
 $ cd /usr/local/bin && for c in chromebrew powerwash rootfs rw cbs-check; do sudo ln -s chromebrew-scripts "$c"; done
@@ -474,7 +474,7 @@ run log's header records the same.
 
 | Key | Default | Meaning |
 | --- | --- | --- |
-| `SELF_UPDATE_REPO` | `https://github.com/bradvrudney/chromebrew-scripts` | source for `--self-update` (https only); unset, a git checkout follows its own origin |
+| `SELF_UPDATE_REPO` | `https://github.com/uberhacker/chromebrew-scripts` | source for `--self-update` (https only); unset, a git checkout follows its own origin |
 | `SELF_UPDATE_BRANCH` | empty | branch for `--self-update` of a git checkout or tree install; empty follows the checkout's branch if the remote has it, else the remote's default branch. A single file follows the releases and ignores it |
 | `TIMEOUT` | `300` | seconds a command may run (`mount`, `make_dev_ssd.sh`, `reboot`); also `--timeout` |
 | `CREW_TIMEOUT` | `3600` | seconds a `crew` command or the Chromebrew installer may run |
@@ -602,7 +602,7 @@ was installed:
 ```
 $ chromebrew-scripts --self-update --dry-run
 ▶ self-update
-  · source: https://github.com/bradvrudney/chromebrew-scripts/releases/latest/download/chromebrew-scripts
+  · source: https://github.com/uberhacker/chromebrew-scripts/releases/latest/download/chromebrew-scripts
   · installed: chromebrew-scripts 2.1.0 (git 1a2b3c4, single file)
   ◦ would replace /usr/local/bin/chromebrew-scripts: 2.1.0 (git 1a2b3c4) -> 2.2.0 (git 5d6e7f8)
 ```
@@ -617,8 +617,7 @@ $ chromebrew-scripts --self-update --source https://github.com/<fork>/chromebrew
 ```
 
 or put `SELF_UPDATE_REPO=https://github.com/<fork>/chromebrew-scripts` in the
-config file (Ed's original, `https://github.com/uberhacker/chromebrew-scripts`,
-is the example in `config.example`; a single file can only follow a fork that
+config file (`config.example` has an example; a single file can only follow a fork that
 publishes releases with a checksum). `install.sh --update` from a checkout or
 tree does the tarball download and reinstall with the same settings
 (`SELF_UPDATE_REPO`, `SELF_UPDATE_BRANCH`, or the 2.0.0 `CBS_REPO=owner/name`

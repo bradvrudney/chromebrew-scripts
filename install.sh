@@ -37,7 +37,7 @@ COMMANDS=(chromebrew powerwash rootfs rw cbs-check)
 SRC=$(cd -P "$(dirname "${BASH_SOURCE[0]}")" && pwd)
 CBS_SUDO="${CBS_SUDO-sudo}"
 CBS_HOME="${CBS_HOME:-${HOME:-/root}}"
-DEFAULT_REPO="https://github.com/bradvrudney/chromebrew-scripts"
+DEFAULT_REPO="https://github.com/uberhacker/chromebrew-scripts"
 COMP_MARK='# bash completion for chromebrew-scripts'
 TMP_DIR=""
 
