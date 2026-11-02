@@ -24,9 +24,10 @@ if command -v shellcheck >/dev/null 2>&1; then
   shellcheck -x bin/chromebrew-scripts install.sh build.sh tests/*.sh tests/test_helper.bash \
     tests/stubs/curl tests/stubs/sudo tests/stubs/crew tests/stubs/crossystem tests/stubs/stub.sh || rc=1
   shellcheck -s bash completions/*.bash || rc=1
-  # SC2317 (unreachable) is noise in the single file: the command and step
+  # SC2317 (unreachable) and SC2329 (never invoked, split out of SC2317 by
+  # version 0.11) are noise in the single file: the command and step
   # functions are dispatched by name.
-  [ -f "$bundle/chromebrew-scripts" ] && { shellcheck -e SC2317 "$bundle/chromebrew-scripts" || rc=1; }
+  [ -f "$bundle/chromebrew-scripts" ] && { shellcheck -e SC2317,SC2329 "$bundle/chromebrew-scripts" || rc=1; }
 else
   echo "shellcheck not installed; skipped" >&2
 fi
