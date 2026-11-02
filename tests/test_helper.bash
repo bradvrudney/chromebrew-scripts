@@ -288,7 +288,7 @@ load_cbs() {
     source "$f"
   done
   # version_string lives in the entry point; a small stand-in for the tests.
-  # shellcheck disable=SC2317  # called by the modules under test
+  # shellcheck disable=SC2317,SC2329  # called by the modules under test
   version_string() { printf 'chromebrew-scripts %s (test)\n' "$(tr -d '[:space:]' < "$REPO_ROOT/VERSION")"; }
   user_init
   config_load
